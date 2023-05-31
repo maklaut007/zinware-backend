@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "agents")
+@Table(name = "category")
 public class Category {
     @Id
     @Column
