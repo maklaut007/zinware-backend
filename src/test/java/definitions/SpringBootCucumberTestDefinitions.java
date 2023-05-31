@@ -5,8 +5,10 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
+import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.junit.Assert;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -47,10 +49,18 @@ public class SpringBootCucumberTestDefinitions {
 
     @When("I search for products from category")
     public void iSearchForProductsFromCategory() {
-        
+        RestAssured.baseURI = BASE_URL;
+        RequestSpecification request = RestAssured.given();
+        request.header("Content-Type", "application/json");
+        response = request.get(BASE_URL + port + "/api/categories/1/products");
+        Assert.assertNotNull(response.body());
     }
 
     @Then("A list of products is displayed")
     public void aListOfProductsIsDisplayed() {
+        Assert.assertEquals(200, response.getStatusCode());
+        Assert.assertNotNull(response.body());
+//        Assert.assertTrue(response.body().asString().contains(""));
+//        Assert.assertTrue(response.body().asString().contains("name"));
     }
 }
