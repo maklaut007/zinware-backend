@@ -34,7 +34,7 @@ public class SpringBootCucumberTestDefinitions {
     @Given("A list of Categories are available")
     public void aListOfCategoriesAreAvailable() {
         try{
-            ResponseEntity<String> response = new RestTemplate().exchange(BASE_URL + port + "/api/categories", HttpMethod.GET, null, String.class);
+            ResponseEntity<String> response = new RestTemplate().exchange(BASE_URL + port + "/api/categories/", HttpMethod.GET, null, String.class);
             List<Map<String, String>> properties = JsonPath
                     .from(String.valueOf(response
                             .getBody()))
@@ -52,7 +52,7 @@ public class SpringBootCucumberTestDefinitions {
         RestAssured.baseURI = BASE_URL;
         RequestSpecification request = RestAssured.given();
         request.header("Content-Type", "application/json");
-        response = request.get(BASE_URL + port + "/api/categories/1/products");
+        response = request.get(BASE_URL + port + "/api/categories/1/products/");
         Assert.assertNotNull(response.body());
     }
 
@@ -60,7 +60,7 @@ public class SpringBootCucumberTestDefinitions {
     public void aListOfProductsIsDisplayed() {
         Assert.assertEquals(200, response.getStatusCode());
         Assert.assertNotNull(response.body());
-//        Assert.assertTrue(response.body().asString().contains(""));
-//        Assert.assertTrue(response.body().asString().contains("name"));
+        Assert.assertTrue(response.body().asString().contains("name"));
+        Assert.assertTrue(response.body().as(List.class).size()> 1);
     }
 }
