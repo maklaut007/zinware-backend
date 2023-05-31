@@ -56,6 +56,13 @@ public class DataLoader implements CommandLineRunner {
         Product product5 = new Product("Razer Keyboard", "A keyboard made by Razer", 200.0, "https://images-na.ssl-images-amazon.com/images/I/61rk-0XJhPL._SL1500_.jpg", category2);
         Product product6 = new Product("Razer Headphones", "A headphones made by Razer", 200.0, "https://images-na.ssl-images-amazon.com/images/I/61rk-0XJhPL._SL1500_.jpg", category3);
 
+        productRepository.save(product1);
+        productRepository.save(product2);
+        productRepository.save(product3);
+        productRepository.save(product4);
+        productRepository.save(product5);
+        productRepository.save(product6);
+
         System.out.println("Data Loaded");
     }
 }
