@@ -1,4 +1,5 @@
 package com.example.zinware.model;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -17,6 +18,10 @@ public class Category {
 
     @Column
     private String picture;
+
+    public Category() {
+
+    }
 
     public Category(String name, String picture) {
         this.name = name;
