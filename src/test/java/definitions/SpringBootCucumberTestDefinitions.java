@@ -30,7 +30,7 @@ public class SpringBootCucumberTestDefinitions {
     @Given("A list of Categories are available")
     public void aListOfCategoriesAreAvailable() {
         try{
-            ResponseEntity<String> response = new RestTemplate().exchange(BASE_URL + port + "/api/", HttpMethod.GET, null, String.class);
+            ResponseEntity<String> response = new RestTemplate().exchange(BASE_URL + port + "/api/categories", HttpMethod.GET, null, String.class);
             List<Map<String, String>> properties = JsonPath
                     .from(String.valueOf(response
                             .getBody()))
