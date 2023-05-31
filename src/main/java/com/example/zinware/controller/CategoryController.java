@@ -17,6 +17,7 @@ public class CategoryController {
 
     @Autowired
     public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
     /**
@@ -24,7 +25,7 @@ public class CategoryController {
      * @return list of categories
      */
     @GetMapping(path = "/categories")
-    public List<Category> getCategories() {
-        return categoryService.getCategories();
+    public List<Category> getAllCategories() {
+        return categoryService.getAllCategories();
     }
 }
