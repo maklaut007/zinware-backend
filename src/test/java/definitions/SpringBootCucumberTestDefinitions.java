@@ -63,4 +63,23 @@ public class SpringBootCucumberTestDefinitions {
         Assert.assertTrue(response.body().asString().contains("name"));
         Assert.assertTrue(response.body().as(List.class).size()> 1);
     }
+
+    @When("I search for product by id")
+    public void iSearchForProductById() {
+        RestAssured.baseURI = BASE_URL;
+        RequestSpecification request = RestAssured.given();
+        request.header("Content-Type", "application/json");
+        response = request.get(BASE_URL + port + "/api/categories/1/products/1/");
+        Assert.assertNotNull(response.body());
+    }
+
+    @Then("A product information is displayed")
+    public void aProductInformationIsDisplayed() {
+        Assert.assertEquals(200, response.getStatusCode());
+        Assert.assertNotNull(response.body());
+        Assert.assertTrue(response.body().asString().contains("name"));
+        Assert.assertTrue(response.body().asString().contains("description"));
+        Assert.assertTrue(response.body().asString().contains("price"));
+        Assert.assertTrue(response.body().asString().contains("image"));
+    }
 }
