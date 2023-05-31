@@ -1,5 +1,6 @@
 package com.example.zinware.service;
 
+import com.example.zinware.exception.InformationNotFoundException;
 import com.example.zinware.model.Category;
 import com.example.zinware.model.Product;
 import com.example.zinware.repository.CategoryRepository;
@@ -39,15 +40,10 @@ public class CategoryService {
      * @return list of products
      */
     public List<Product> getCategoryProducts(Long categoryId) {
-        Optional<Category> category = categoryRepository.findById(categoryId);
-        System.out.println(category.get().getName());
-        if(category.isEmpty()) {
-            //Change later to throw custom exception
-            throw new RuntimeException("Category not found for id" + categoryId);
+        Optional<List<Product>> products = productRepository.findByCategoryId(categoryId);
+        if (products.isEmpty()) {
+            throw new InformationNotFoundException("No products found in this category" + categoryId);
         }
-
-        Optional<List<Product>> products = productRepository.findByCategory(category.get());
-        System.out.println(products);
         return products.get();
     }
 }
