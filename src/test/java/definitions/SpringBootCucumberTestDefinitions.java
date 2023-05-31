@@ -2,6 +2,8 @@ package definitions;
 
 import com.example.zinware.ZinwareApplication;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -41,5 +43,14 @@ public class SpringBootCucumberTestDefinitions {
         } catch (HttpClientErrorException e) {
             e.printStackTrace();
         }
+    }
+
+    @When("I search for products from category")
+    public void iSearchForProductsFromCategory() {
+        
+    }
+
+    @Then("A list of products is displayed")
+    public void aListOfProductsIsDisplayed() {
     }
 }
