@@ -14,5 +14,9 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    public User registerUser(User user) {
+        // TODO: implement checking for existing use
+        return userRepository.save(user);
+    }
 
 }
