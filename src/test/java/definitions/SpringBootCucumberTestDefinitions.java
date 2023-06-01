@@ -82,4 +82,18 @@ public class SpringBootCucumberTestDefinitions {
         Assert.assertTrue(response.body().asString().contains("price"));
         Assert.assertTrue(response.body().asString().contains("image"));
     }
+
+    @Given("A user is successfully registered")
+    public void aUserIsSuccessfullyRegistered() {
+        
+    }
+
+    @When("A user logs in")
+    public void aUserLogsIn() {
+        
+    }
+
+    @Then("JWT key is displayed")
+    public void jwtKeyIsDisplayed() {
+    }
 }
