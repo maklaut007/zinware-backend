@@ -9,12 +9,12 @@ import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -85,7 +85,21 @@ public class SpringBootCucumberTestDefinitions {
 
     @Given("A user is successfully registered")
     public void aUserIsSuccessfullyRegistered() {
-        
+        try {
+            JSONObject requestBody = new JSONObject();
+            requestBody.put("password", "123456");
+            requestBody.put("email", "email@mail.com");
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<String> request = new HttpEntity<String>(requestBody.toString(), headers);
+            ResponseEntity<String> response = new RestTemplate().exchange(BASE_URL + port + "/auth/register/", HttpMethod.POST, request, String.class);
+            Assert.assertEquals(response.getStatusCode(), HttpStatus.CREATED);
+        } catch (HttpClientErrorException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @When("A user logs in")
