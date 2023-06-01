@@ -1,4 +1,4 @@
-package com.example.zinware.service;
+package com.example.zinware.security;
 
 import com.example.zinware.model.User;
 import org.springframework.security.core.GrantedAuthority;
