@@ -40,4 +40,15 @@ public class CategoryController {
     public List<Product> getCategoryProducts(@PathVariable Long categoryId) {
         return categoryService.getCategoryProducts(categoryId);
     }
+
+    /**
+     * Get a product in a category by id
+     * @param categoryId    id of the category
+     * @param productId     id of the product
+     * @return product object if not found return 404
+     */
+    @GetMapping(path = "/categories/{categoryId}/products/{productId}")
+    public Product getProduct(@PathVariable Long categoryId, @PathVariable Long productId) {
+        return categoryService.getProduct(categoryId, productId);
+    }
 }
