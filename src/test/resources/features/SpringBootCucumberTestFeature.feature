@@ -5,4 +5,7 @@ Feature: Rest API functionalities
     Then A list of products is displayed
     When I search for product by id
     Then A product information is displayed
-
+  Scenario: User able to Register and Login
+    Given A user is successfully registered
+    When A user logs in
+    Then JWT key is displayed
