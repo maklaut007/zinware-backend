@@ -1,6 +1,7 @@
 package com.example.zinware.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -25,6 +26,9 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @OneToMany(mappedBy = "product")
+    private List<CartItem> cartItems;
 
     public Product(String name, String description, Double price, String image, Category category) {
         this.name = name;
