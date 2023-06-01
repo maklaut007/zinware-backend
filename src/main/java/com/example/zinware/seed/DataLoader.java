@@ -40,9 +40,9 @@ public class DataLoader implements CommandLineRunner {
      */
     private void loadUserData() {
         // Seed categories
-        Category category1 = new Category("Mouses", "");
-        Category category2 = new Category("Keyboards", "");
-        Category category3 = new Category("Headphones", "");
+        Category category1 = new Category("Mouses", "PC Mouses", "");
+        Category category2 = new Category("Keyboards","PC Keyboards", "");
+        Category category3 = new Category("Headphones","PC Headphones", "");
 
         categoryRepository.save(category1);
         categoryRepository.save(category2);

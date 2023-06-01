@@ -18,6 +18,9 @@ public class Category {
     private String name;
 
     @Column
+    private String description;
+
+    @Column
     private String picture;
 
     @OneToMany(mappedBy = "category")
@@ -28,8 +31,9 @@ public class Category {
 
     }
 
-    public Category(String name, String picture) {
+    public Category(String name, String description, String picture) {
         this.name = name;
+        this.description = description;
         this.picture = picture;
     }
 
