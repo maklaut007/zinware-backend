@@ -19,6 +19,9 @@ public class User {
     @Column
     private String email;
 
+    @OneToOne(mappedBy = "user")
+    private Cart cart;
+
     public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
