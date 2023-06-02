@@ -1,5 +1,7 @@
 package com.example.zinware.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 @Entity
 @Table(name = "cart_item")
@@ -17,6 +19,7 @@ public class CartItem {
     private Product product;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "cart_id", nullable = false)
     private Cart cart;
 

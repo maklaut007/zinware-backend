@@ -1,5 +1,7 @@
 package com.example.zinware.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,9 +14,11 @@ public class Cart {
     private Long id;
 
     @OneToMany(mappedBy = "cart")
+
     private List<CartItem> cartItems;
 
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 

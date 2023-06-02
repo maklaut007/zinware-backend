@@ -87,7 +87,7 @@ public class DataLoader implements CommandLineRunner {
         productRepository.save(product7);
 
         User user1 = new User("Test User", "123456", "test@mail.com");
-        userRepository.save(user1);
+        userService.registerUser(user1);
 
         Cart cart1 = new Cart();
 
