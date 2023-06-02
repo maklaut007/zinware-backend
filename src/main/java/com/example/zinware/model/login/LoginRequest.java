@@ -1,4 +1,4 @@
-package com.example.zinware.model;
+package com.example.zinware.model.login;
 
 public class LoginRequest {
     private String email;
