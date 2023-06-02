@@ -118,4 +118,22 @@ public class SpringBootCucumberTestDefinitions {
         Assert.assertEquals(200, response.getStatusCode());
         Assert.assertNotNull(response.body());
     }
+
+    @Given("A user is successfully logged in")
+    public void aUserIsSuccessfullyLoggedIn() {
+    }
+    @When("A user open cart")
+    public void aUserOpenCart() {
+
+    }
+    @Then("A list of items in cart is displayed")
+    public void aListOfItemsInCartIsDisplayed() {
+    }
+
+    @When("User adds item to cart")
+    public void userAddsItemToCart() {
+    }
+    @Then("Item successfully added to cart")
+    public void itemSuccessfullyAddedToCart() {
+    }
 }
