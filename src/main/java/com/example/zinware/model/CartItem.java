@@ -20,10 +20,10 @@ public class CartItem {
     @JoinColumn(name = "cart_id", nullable = false)
     private Cart cart;
 
-    public CartItem(Long id, int quantity, Product product) {
-        this.id = id;
+    public CartItem(Cart cart, Product product,  int quantity) {
         this.quantity = quantity;
         this.product = product;
+        this.cart = cart;
     }
 
     public CartItem() {
