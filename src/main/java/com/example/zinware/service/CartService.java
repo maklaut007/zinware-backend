@@ -8,6 +8,8 @@ import com.example.zinware.model.login.User;
 import com.example.zinware.repository.CartItemRepository;
 import com.example.zinware.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -58,17 +60,18 @@ public class CartService {
         return cart.get();
     }
 
-    public CartItem addItemToCart(CartItemRequest cartItemRequest) {
+    public ResponseEntity<CartItem> addItemToCart(CartItemRequest cartItemRequest) {
         //TODO: Check if product is already in cart
 
         //Get cart and product
         Cart cart = getCart();
         Product product = categoryService.getProduct(cartItemRequest.getProductId());
 
+
         // Create cart item and save it to cart item repository
         CartItem cartItem = new CartItem(cart, product, cartItemRequest.getQuantity());
         cartItemRepository.save(cartItem);
-        return cartItem;
+        return ResponseEntity.status(HttpStatus.CREATED).body(cartItem);
     }
 }
 

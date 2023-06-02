@@ -4,6 +4,7 @@ import com.example.zinware.model.cart.Cart;
 import com.example.zinware.model.cart.CartItem;
 import com.example.zinware.model.cart.CartItemRequest;
 import com.example.zinware.service.CartService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -30,7 +31,7 @@ public class CartController {
      * @return cart item that was added
      */
     @PostMapping(path = "/")
-    public CartItem addItemToCart(@RequestBody CartItemRequest cartItemRequest) {
+    public ResponseEntity<CartItem> addItemToCart(@RequestBody CartItemRequest cartItemRequest) {
         return cartService.addItemToCart(cartItemRequest);
     }
 }
