@@ -11,7 +11,7 @@ Feature: Rest API functionalities
     Then JWT key is displayed
   Scenario: User can get, add and remove from cart
     Given A user is successfully logged in
-     When A user open cart
+    When A user open cart
     Then A list of items in cart is displayed
-#    When User adds item to cart
-#    Then Item successfully added to cart
+    When User adds item to cart
+    Then Item successfully added to cart

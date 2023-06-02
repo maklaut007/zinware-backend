@@ -157,13 +157,25 @@ public class SpringBootCucumberTestDefinitions {
     public void aListOfItemsInCartIsDisplayed() {
         Assert.assertEquals(200, response.getStatusCode());
         Assert.assertNotNull(response.body());
-        Assert.assertTrue(response.body().as(List.class).size()> 1);
+        Assert.assertTrue(response.body().asString().contains("cartItems"));
     }
 
     @When("User adds item to cart")
-    public void userAddsItemToCart() {
+    public void userAddsItemToCart() throws JSONException {
+        RestAssured.baseURI = BASE_URL;
+        RequestSpecification request = RestAssured.given().header("Authorization", "Bearer " + authToken);
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("productId", 1);
+        requestBody.put("quantity", 2);
+        request.header("Content-Type", "application/json");
+        response = request.body(requestBody.toString()).post(BASE_URL + port + "/api/cart/");
+        System.out.println(response.getBody().asString());
     }
     @Then("Item successfully added to cart")
     public void itemSuccessfullyAddedToCart() {
+        Assert.assertEquals(201, response.getStatusCode());
+        Assert.assertNotNull(response.body());
+        Assert.assertTrue(response.body().asString().contains("id"));
+
     }
 }

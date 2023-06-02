@@ -28,8 +28,8 @@ public class CartController {
      * Add item to cart
      * @return cart item that was added
      */
-    @PostMapping(path = "/")
-    public CartItem addItemToCart(@RequestBody CartItem cartItem) {
-        return cartService.addItemToCart(cartItem);
-    };
+//    @PostMapping(path = "/")
+//    public CartItem addItemToCart(@RequestBody CartItem cartItem) {
+//        return cartService.addItemToCart(cartItem);
+//    };
 }
