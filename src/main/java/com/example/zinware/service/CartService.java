@@ -1,8 +1,14 @@
 package com.example.zinware.service;
 
+import com.example.zinware.model.Cart;
+import com.example.zinware.model.User;
 import com.example.zinware.repository.CartRepository;
+import com.example.zinware.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class CartService {
@@ -11,6 +17,7 @@ public class CartService {
     public void setCartRepository(CartRepository cartRepository) {
         this.cartRepository = cartRepository;
     }
+
 
     public void addItemToCart() {
         System.out.println("addItemToCart");
@@ -24,8 +31,22 @@ public class CartService {
         System.out.println("updateItemQuantity");
     }
 
-    public void viewCart() {
-        System.out.println("viewCart");
+    /**
+     * Get current logged in user's cart or create a new one if not exists
+     * @return cart object
+     */
+    public Cart getCart() {
+        User user = UserService.getCurrentLoggedInUser();
+        Optional<Cart> cart = cartRepository.findByUserId(user.getId());
+        // Create cart if not exists
+        if(!cart.isPresent()) {
+            Cart newCart = new Cart();
+            newCart.setUser(user);
+            cartRepository.save(newCart);
+            return newCart;
+        }
+        return cart.get();
+
     }
 
 }
