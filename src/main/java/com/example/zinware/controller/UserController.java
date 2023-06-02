@@ -20,7 +20,7 @@ public class UserController {
     }
 
     @PostMapping(path = "/register/")
-    public User registerUser(@RequestBody User user) {
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
         return userService.registerUser(user);
     }
 

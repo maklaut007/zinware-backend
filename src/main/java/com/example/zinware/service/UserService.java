@@ -44,11 +44,15 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User registerUser(User user) {
+    public ResponseEntity<User> registerUser(User user) {
         // TODO: implement checking for existing use
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        User savedUser = userRepository.save(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
+
     public User findUserByEmail(String email){
         return userRepository.findByEmail(email);
     }
