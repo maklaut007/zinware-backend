@@ -55,7 +55,9 @@ public class UserService {
      * @return ResponseEntity object with status CREATED and body of User
      */
     public ResponseEntity<User> registerUser(User user) {
-        // TODO: implement checking for existing use
+        if(userRepository.findByEmail(user.getEmail()) != null){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         User savedUser = userRepository.save(user);
