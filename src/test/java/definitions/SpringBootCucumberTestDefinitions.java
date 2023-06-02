@@ -89,7 +89,7 @@ public class SpringBootCucumberTestDefinitions {
             JSONObject requestBody = new JSONObject();
             requestBody.put("password", "123456");
             requestBody.put("email", "email@mail.com");
-
+            requestBody.put("username", "user");
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<String> request = new HttpEntity<String>(requestBody.toString(), headers);
