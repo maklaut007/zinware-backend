@@ -45,6 +45,7 @@ public class UserService {
 
     public User registerUser(User user) {
         // TODO: implement checking for existing use
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
     public User findUserByEmail(String email){
