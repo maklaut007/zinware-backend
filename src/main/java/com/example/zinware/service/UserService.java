@@ -29,9 +29,9 @@ public class UserService {
     @Autowired
     public UserService(UserRepository userRepository,
                        @Lazy PasswordEncoder passwordEncoder,
-                        JwtUtils jwtUtils,
+                       JwtUtils jwtUtils,
                        @Lazy AuthenticationManager authenticationManager,
-                        @Lazy MyUserDetails myUserDetails) {
+                       @Lazy MyUserDetails myUserDetails) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtils = jwtUtils;
@@ -44,18 +44,34 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Register a new user
+     * @param user  object of User
+     * @return ResponseEntity object with status CREATED and body of User
+     */
     public ResponseEntity<User> registerUser(User user) {
         // TODO: implement checking for existing use
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         User savedUser = userRepository.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
 
+    /**
+     * find user by email in repository
+     * @param email of user
+     * @return User object
+     */
     public User findUserByEmail(String email){
         return userRepository.findByEmail(email);
     }
+
+    /**
+     * Login user and return JWT
+     * @param loginRequest object of LoginRequest
+     * @return ResponseEntity object with status OK and body of LoginResponse
+     * @throws Exception if username or password is incorrect
+     */
     public ResponseEntity<?> loginUser(LoginRequest loginRequest){
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -65,6 +81,7 @@ public class UserService {
             final String JWT = jwtUtils.generateJwtToken(myUserDetails);
             return ResponseEntity.ok(new LoginResponse(JWT));
         }catch (Exception e){
+            //TODO: create custom exception
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginResponse("Error: username or password is incorrect"));
         }
     }
