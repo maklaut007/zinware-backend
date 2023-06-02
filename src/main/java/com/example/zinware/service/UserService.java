@@ -44,6 +44,11 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    public static User getCurrentLoggedInUser(){
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userDetails.getUser();
+    }
+
     /**
      * Register a new user
      * @param user  object of User
