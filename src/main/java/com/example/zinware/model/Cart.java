@@ -18,8 +18,7 @@ public class Cart {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    public Cart(List<CartItem> cartItems, User user) {
-        this.cartItems = cartItems;
+    public Cart(User user) {
         this.user = user;
     }
 
