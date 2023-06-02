@@ -1,11 +1,7 @@
 package com.example.zinware.seed;
 
-import com.example.zinware.model.Category;
-import com.example.zinware.model.Product;
-import com.example.zinware.model.User;
-import com.example.zinware.repository.CategoryRepository;
-import com.example.zinware.repository.ProductRepository;
-import com.example.zinware.repository.UserRepository;
+import com.example.zinware.model.*;
+import com.example.zinware.repository.*;
 import com.example.zinware.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -17,6 +13,8 @@ public class DataLoader implements CommandLineRunner {
     CategoryRepository categoryRepository;
     ProductRepository productRepository;
     UserService userService;
+    CartItemRepository cartItemRepository;
+    CartRepository cartRepository;
 
     @Autowired
     public void setCategoryRepository(CategoryRepository categoryRepository) {
@@ -31,6 +29,16 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    @Autowired
+    public void setCartRepository(CartRepository cartRepository) {
+        this.cartRepository = cartRepository;
+    }
+
+    @Autowired
+    public void setCartItemRepository(CartItemRepository cartItemRepository) {
+        this.cartItemRepository = cartItemRepository;
     }
 
     /**
@@ -66,6 +74,14 @@ public class DataLoader implements CommandLineRunner {
         // Seed users
         User user1 = new User("Test User", "123456", "test@mail.com");
 
+        // Seed cart
+        Cart cart1 = new Cart(user1);
+
+        // Seed cart items
+        CartItem cartItem1 = new CartItem(cart1, product1, 1);
+        CartItem cartItem2 = new CartItem(cart1, product2, 2);
+
+
         // Save to database
         productRepository.save(product1);
         productRepository.save(product2);
@@ -81,6 +97,10 @@ public class DataLoader implements CommandLineRunner {
 
         userService.registerUser(user1);
 
+        cartRepository.save(cart1);
+
+        cartItemRepository.save(cartItem1);
+        cartItemRepository.save(cartItem2);
 
         System.out.println("Data Loaded");
     }
