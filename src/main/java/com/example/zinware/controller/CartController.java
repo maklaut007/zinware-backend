@@ -1,5 +1,6 @@
 package com.example.zinware.controller;
 
+import com.example.zinware.model.Cart;
 import com.example.zinware.service.CartService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ public class CartController {
         this.cartService = cartService;
     }
     @GetMapping
-    public String getCart() {
-        return "cart";
+    public Cart getCart() {
+        return cartService.getCart();
     };
 }
