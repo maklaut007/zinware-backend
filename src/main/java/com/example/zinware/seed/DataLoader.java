@@ -27,6 +27,7 @@ public class DataLoader implements CommandLineRunner {
     public void setProductRepository(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
+
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
@@ -49,12 +50,9 @@ public class DataLoader implements CommandLineRunner {
     private void loadUserData() {
         // Seed categories
         Category category1 = new Category("Mouses", "PC Mouses", "https://media.discordapp.net/attachments/1112238965743964211/1113833439012081694/Allair_Gaming_mice_black_color_white_lights_dark_blue_backgroud_6584014f-6aff-438e-b1b9-c8fbd2368ff8.png?width=1298&height=865");
-        Category category2 = new Category("Keyboards","PC Keyboards", "https://cdn.discordapp.com/attachments/1112238965743964211/1113681140931362938/Allair_Gaming_keyboard_black_color_white_lights_dark_blue_backg_74961f9a-a214-4327-a118-4a30063f06ae.png");
-        Category category3 = new Category("Headphones","PC Headphones", "https://media.discordapp.net/attachments/1112238965743964211/1113832002462949386/Allair_Gaming_headphones_black_color_white_lights_dark_blue_bac_8e006651-9ed9-4bbe-9b19-5281af57ed97.png?width=1298&height=865");
+        Category category2 = new Category("Keyboards", "PC Keyboards", "https://cdn.discordapp.com/attachments/1112238965743964211/1113681140931362938/Allair_Gaming_keyboard_black_color_white_lights_dark_blue_backg_74961f9a-a214-4327-a118-4a30063f06ae.png");
+        Category category3 = new Category("Headphones", "PC Headphones", "https://media.discordapp.net/attachments/1112238965743964211/1113832002462949386/Allair_Gaming_headphones_black_color_white_lights_dark_blue_bac_8e006651-9ed9-4bbe-9b19-5281af57ed97.png?width=1298&height=865");
 
-        categoryRepository.save(category1);
-        categoryRepository.save(category2);
-        categoryRepository.save(category3);
 
         // Seed products
         Product product1 = new Product("Zinmouse 8080", "Flagship mice made by Zinware", 200.0, "https://media.discordapp.net/attachments/1112238965743964211/1113833580687274054/Allair_single_gaming_mouse_black_color_white_lights_dark_blue_b_e093442e-5e23-479a-b3a3-07f7160d5cc7.png?width=1298&height=865", category1);
@@ -65,6 +63,10 @@ public class DataLoader implements CommandLineRunner {
         Product product6 = new Product("Razer Headphones", "A headphones made by Razer", 200.0, "https://images-na.ssl-images-amazon.com/images/I/61rk-0XJhPL._SL1500_.jpg", category3);
         Product product7 = new Product("Zinmaouse Premium Gold ", "High end gaming mice made by Zinware, 25K DPI", 400.0, "https://media.discordapp.net/attachments/1112238965743964211/1113875247276498944/Allair_gaming_mouse_black_color_golden_lights_dark_blue_backgro_70f5f116-7308-46cc-b680-fbbba1efffc1.png?width=947&height=631", category1);
 
+        // Seed users
+        User user1 = new User("Test User", "123456", "test@mail.com");
+
+        // Save to database
         productRepository.save(product1);
         productRepository.save(product2);
         productRepository.save(product3);
@@ -73,8 +75,10 @@ public class DataLoader implements CommandLineRunner {
         productRepository.save(product6);
         productRepository.save(product7);
 
-        //seed user
-        User user1 = new User("Test User", "123456", "test@mail.com");
+        categoryRepository.save(category1);
+        categoryRepository.save(category2);
+        categoryRepository.save(category3);
+
         userService.registerUser(user1);
 
 
