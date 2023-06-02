@@ -18,6 +18,7 @@ import org.springframework.http.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,8 @@ import java.util.Map;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ZinwareApplication.class)
 public class SpringBootCucumberTestDefinitions {
     private static final String BASE_URL = "http://localhost:";
+
+    private String authToken;
 
     @LocalServerPort
     String port;
@@ -121,13 +124,40 @@ public class SpringBootCucumberTestDefinitions {
 
     @Given("A user is successfully logged in")
     public void aUserIsSuccessfullyLoggedIn() {
+        try {
+            JSONObject requestBody = new JSONObject();
+            requestBody.put("password", "123456");
+            requestBody.put("email", "test@mail.com");
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<String> request = new HttpEntity<String>(requestBody.toString(), headers);
+            ResponseEntity<String> response = new RestTemplate().exchange(BASE_URL + port + "/auth/login/", HttpMethod.POST, request, String.class);
+            Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+            // get JWT token from response body
+            JSONObject responseBody = new JSONObject(response.getBody());
+            authToken = responseBody.getString("message");
+
+        } catch (HttpClientErrorException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
+
     @When("A user open cart")
     public void aUserOpenCart() {
-
+        RestAssured.baseURI = BASE_URL;
+        RequestSpecification request = RestAssured.given().header("Authorization", "Bearer " + authToken).header("Accept", "application/json");;
+        JSONObject requestBody = new JSONObject();
+        response = request.body(requestBody.toString()).get(BASE_URL + port + "/api/cart/");
+        System.out.println(response.getBody().asString());
     }
+
     @Then("A list of items in cart is displayed")
     public void aListOfItemsInCartIsDisplayed() {
+        Assert.assertEquals(200, response.getStatusCode());
+        Assert.assertNotNull(response.body());
+        Assert.assertTrue(response.body().as(List.class).size()> 1);
     }
 
     @When("User adds item to cart")

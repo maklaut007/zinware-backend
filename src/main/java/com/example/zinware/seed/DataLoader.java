@@ -2,8 +2,11 @@ package com.example.zinware.seed;
 
 import com.example.zinware.model.Category;
 import com.example.zinware.model.Product;
+import com.example.zinware.model.User;
 import com.example.zinware.repository.CategoryRepository;
 import com.example.zinware.repository.ProductRepository;
+import com.example.zinware.repository.UserRepository;
+import com.example.zinware.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -13,6 +16,7 @@ public class DataLoader implements CommandLineRunner {
 
     CategoryRepository categoryRepository;
     ProductRepository productRepository;
+    UserService userService;
 
     @Autowired
     public void setCategoryRepository(CategoryRepository categoryRepository) {
@@ -22,6 +26,10 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     public void setProductRepository(ProductRepository productRepository) {
         this.productRepository = productRepository;
+    }
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     /**
@@ -64,6 +72,11 @@ public class DataLoader implements CommandLineRunner {
         productRepository.save(product5);
         productRepository.save(product6);
         productRepository.save(product7);
+
+        //seed user
+        User user1 = new User("Test User", "123456", "test@mail.com");
+        userService.registerUser(user1);
+
 
         System.out.println("Data Loaded");
     }
