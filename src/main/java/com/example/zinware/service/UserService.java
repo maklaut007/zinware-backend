@@ -3,17 +3,40 @@ package com.example.zinware.service;
 import com.example.zinware.model.LoginRequest;
 import com.example.zinware.model.User;
 import com.example.zinware.repository.UserRepository;
+import com.example.zinware.security.JwtUtils;
+import com.example.zinware.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
+
     private UserRepository userRepository;
+    private AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+    private JwtUtils jwtUtils;
+    private MyUserDetails myUserDetails;
+
+    @Autowired
+    public UserService(UserRepository userRepository,
+                       @Lazy PasswordEncoder passwordEncoder,
+                        JwtUtils jwtUtils,
+                       @Lazy AuthenticationManager authenticationManager,
+                        @Lazy MyUserDetails myUserDetails) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtUtils = jwtUtils;
+        this.authenticationManager = authenticationManager;
+        this.myUserDetails = myUserDetails;
+    }
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
