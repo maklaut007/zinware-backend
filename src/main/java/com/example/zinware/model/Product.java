@@ -1,5 +1,6 @@
 package com.example.zinware.model;
 
+import com.example.zinware.model.cart.CartItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;

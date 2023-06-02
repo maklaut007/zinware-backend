@@ -1,8 +1,8 @@
 package com.example.zinware.controller;
 
-import com.example.zinware.model.Cart;
-import com.example.zinware.model.CartItem;
-import com.example.zinware.model.Product;
+import com.example.zinware.model.cart.Cart;
+import com.example.zinware.model.cart.CartItem;
+import com.example.zinware.model.cart.CartItemRequest;
 import com.example.zinware.service.CartService;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +30,7 @@ public class CartController {
      * @return cart item that was added
      */
     @PostMapping(path = "/")
-    public CartItem addItemToCart(@RequestBody Long productId, @RequestBody Integer quantity) {
-        return cartService.addItemToCart(productId, quantity);
+    public CartItem addItemToCart(@RequestBody CartItemRequest cartItemRequest) {
+        return cartService.addItemToCart(cartItemRequest);
     }
 }

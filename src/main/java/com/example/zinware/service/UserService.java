@@ -1,7 +1,7 @@
 package com.example.zinware.service;
 
 import com.example.zinware.model.login.LoginRequest;
-import com.example.zinware.model.User;
+import com.example.zinware.model.login.User;
 import com.example.zinware.model.login.LoginResponse;
 import com.example.zinware.repository.UserRepository;
 import com.example.zinware.security.JwtUtils;

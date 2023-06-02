@@ -1,4 +1,6 @@
-package com.example.zinware.model;
+package com.example.zinware.model.login;
+
+import com.example.zinware.model.cart.Cart;
 
 import javax.persistence.*;
 

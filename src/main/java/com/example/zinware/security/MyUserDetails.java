@@ -1,6 +1,6 @@
 package com.example.zinware.security;
 
-import com.example.zinware.model.User;
+import com.example.zinware.model.login.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

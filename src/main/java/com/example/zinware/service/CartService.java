@@ -1,13 +1,14 @@
 package com.example.zinware.service;
 
 import com.example.zinware.model.*;
+import com.example.zinware.model.cart.Cart;
+import com.example.zinware.model.cart.CartItem;
+import com.example.zinware.model.cart.CartItemRequest;
+import com.example.zinware.model.login.User;
 import com.example.zinware.repository.CartItemRepository;
 import com.example.zinware.repository.CartRepository;
-import com.example.zinware.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 
@@ -28,7 +29,7 @@ public class CartService {
     }
     @Autowired
     public void setProductService(CategoryService categoryService) {
-        categoryService = categoryService;
+        this.categoryService = categoryService;
     }
 
     public void removeItemFromCart() {
@@ -57,15 +58,15 @@ public class CartService {
         return cart.get();
     }
 
-    public CartItem addItemToCart(Long productId, Integer quantity) {
+    public CartItem addItemToCart(CartItemRequest cartItemRequest) {
         //TODO: Check if product is already in cart
 
         //Get cart and product
         Cart cart = getCart();
-        Product product = categoryService.getProduct(productId);
+        Product product = categoryService.getProduct(cartItemRequest.getProductId());
 
         // Create cart item and save it to cart item repository
-        CartItem cartItem = new CartItem(cart, product, quantity);
+        CartItem cartItem = new CartItem(cart, product, cartItemRequest.getQuantity());
         cartItemRepository.save(cartItem);
         return cartItem;
     }

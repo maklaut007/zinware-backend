@@ -1,6 +1,6 @@
 package com.example.zinware.repository;
 
-import com.example.zinware.model.CartItem;
+import com.example.zinware.model.cart.CartItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

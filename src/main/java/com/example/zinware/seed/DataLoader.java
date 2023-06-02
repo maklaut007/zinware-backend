@@ -1,6 +1,9 @@
 package com.example.zinware.seed;
 
 import com.example.zinware.model.*;
+import com.example.zinware.model.cart.Cart;
+import com.example.zinware.model.cart.CartItem;
+import com.example.zinware.model.login.User;
 import com.example.zinware.repository.*;
 import com.example.zinware.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

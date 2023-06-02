@@ -1,7 +1,6 @@
 package com.example.zinware.security;
 
-import com.example.zinware.model.User;
-import com.example.zinware.security.MyUserDetails;
+import com.example.zinware.model.login.User;
 import com.example.zinware.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
