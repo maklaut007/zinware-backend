@@ -76,4 +76,17 @@ public class CategoryService {
         return product.get();
     }
 
+    /**
+     * Returns product by id
+     * @param productId  id of the product
+     * @return product object
+     * @throws InformationNotFoundException  if product is not found
+     */
+    public Product getProduct(Long productId) {
+        Optional<Product> product = productRepository.findById(productId);
+        if (product.isEmpty()) {
+            throw new InformationNotFoundException("No product found with id" + productId);
+        }
+        return product.get();
+    }
 }
