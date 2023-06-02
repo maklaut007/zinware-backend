@@ -1,6 +1,6 @@
 package com.example.zinware.controller;
 
-import com.example.zinware.model.LoginRequest;
+import com.example.zinware.model.login.LoginRequest;
 import com.example.zinware.model.User;
 import com.example.zinware.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

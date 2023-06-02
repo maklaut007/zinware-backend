@@ -1,7 +1,8 @@
 package com.example.zinware.service;
 
-import com.example.zinware.model.LoginRequest;
+import com.example.zinware.model.login.LoginRequest;
 import com.example.zinware.model.User;
+import com.example.zinware.model.login.LoginResponse;
 import com.example.zinware.repository.UserRepository;
 import com.example.zinware.security.JwtUtils;
 import com.example.zinware.security.MyUserDetails;
@@ -56,10 +57,11 @@ public class UserService {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            // TODO: implement JWT token
-            return ResponseEntity.ok(authentication);
+            myUserDetails = (MyUserDetails) authentication.getPrincipal();
+            final String JWT = jwtUtils.generateJwtToken(myUserDetails);
+            return ResponseEntity.ok(new LoginResponse(JWT));
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginResponse("Error: username or password is incorrect"));
         }
     }
 
