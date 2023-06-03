@@ -48,6 +48,7 @@ public class CartService {
      * @return cart object
      */
     public Cart getCart() {
+        System.out.println(" Cart ");
         User user = UserService.getCurrentLoggedInUser();
         Optional<Cart> cart = cartRepository.findByUserId(user.getId());
         // Create cart if not exists
