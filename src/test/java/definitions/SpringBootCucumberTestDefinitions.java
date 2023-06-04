@@ -18,7 +18,6 @@ import org.springframework.http.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +55,6 @@ public class SpringBootCucumberTestDefinitions {
         RequestSpecification request = RestAssured.given();
         request.header("Content-Type", "application/json");
         response = request.get(BASE_URL + port + "/api/categories/1/products/");
-        Assert.assertNotNull(response.body());
     }
 
     @Then("A list of products is displayed")
@@ -65,6 +63,7 @@ public class SpringBootCucumberTestDefinitions {
         Assert.assertNotNull(response.body());
         Assert.assertTrue(response.body().asString().contains("name"));
         Assert.assertTrue(response.body().as(List.class).size()> 1);
+        Assert.assertTrue(response.body().asString().contains("description"));
     }
 
     @When("I search for product by id")
@@ -189,7 +188,6 @@ public class SpringBootCucumberTestDefinitions {
     @Then("product quantity is increased by one")
     public void productQuantityIsIncreasedByOne() {
         Assert.assertEquals(200, response.getStatusCode());
-        Assert.assertTrue(response.getBody().asString().contains("success"));
         Assert.assertTrue(response.getBody().asString().contains("quantity"));
     }
 
@@ -205,7 +203,6 @@ public class SpringBootCucumberTestDefinitions {
     @Then("product quantity is decreased by one")
     public void productQuantityIsDecreasedByOne() {
         Assert.assertEquals(200, response.getStatusCode());
-        Assert.assertTrue(response.getBody().asString().contains("success"));
         Assert.assertTrue(response.getBody().asString().contains("quantity"));
     }
 }

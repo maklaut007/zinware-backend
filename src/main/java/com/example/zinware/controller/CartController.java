@@ -34,4 +34,23 @@ public class CartController {
     public ResponseEntity<CartItem> addItemToCart(@RequestBody CartItemRequest cartItemRequest) {
         return cartService.addItemToCart(cartItemRequest);
     }
+
+    /**
+     * Decrease quantity of item in cart by 1
+     * @param itemId id of item to decrease quantity of
+     * @return new quantity of item in cart
+     */
+    @PutMapping(path = "/{itemId}/decrease-quantity/")
+    public ResponseEntity<Integer> decreaseItemQuantity(@PathVariable("itemId") Long itemId) {
+        return cartService.decreaseItemQuantity(itemId);
+    }
+    /**
+     * Increase quantity of item in cart by 1
+     * @param itemId id of item to increase quantity of
+     * @return new quantity of item in cart
+     */
+    @PutMapping(path = "/{itemId}/increase-quantity/")
+    public ResponseEntity<Integer> increaseItemQuantity(@PathVariable("itemId") Long itemId) {
+        return cartService.increaseItemQuantity(itemId);
+    }
 }
