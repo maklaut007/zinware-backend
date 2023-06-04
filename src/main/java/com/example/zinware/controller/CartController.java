@@ -44,4 +44,14 @@ public class CartController {
     public ResponseEntity<CartItem> updateItemQuantity(@PathVariable Long itemId, @RequestBody CartItemRequest cartItem) {
         return cartService.updateItemQuantity(itemId, cartItem);
     }
+
+    /**
+     * Delete item from cart by id of item
+     * @param itemId id of item to delete from cart
+     * @return cart with item deleted
+     */
+    @DeleteMapping
+    public Cart deleteItemFromCart(@PathVariable Long itemId) {
+        return cartService.deleteItemFromCart(itemId);
+    }
 }
