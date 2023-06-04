@@ -224,10 +224,17 @@ public class SpringBootCucumberTestDefinitions {
 
     @When("I delete item from cart")
     public void iDeleteItemFromCart() {
-        
+        RestAssured.baseURI = BASE_URL;
+        RequestSpecification request = RestAssured.given().header("Authorization", "Bearer " + authToken);
+        JSONObject requestBody = new JSONObject();
+        request.header("Content-Type", "application/json");
+        response = request.body(requestBody.toString()).delete(BASE_URL + port + "/api/cart/1/");
     }
 
     @Then("Cart without item is displayed")
     public void cartWithoutItemIsDisplayed() {
+        Assert.assertEquals(200, response.getStatusCode());
+        Assert.assertNotNull(response.body());
+        Assert.assertTrue(response.body().asString().contains("cartItems"));
     }
 }
