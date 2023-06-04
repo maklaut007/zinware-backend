@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 
@@ -29,6 +31,7 @@ public class CartService {
     public void setCartItemRepository(CartItemRepository cartItemRepository) {
         this.cartItemRepository = cartItemRepository;
     }
+
     @Autowired
     public void setProductService(CategoryService categoryService) {
         this.categoryService = categoryService;
@@ -62,6 +65,7 @@ public class CartService {
 
     /**
      * Add item to cart or increase the quantity of an existing item in cart if it already exists
+     *
      * @param cartItemRequest cart item request object that contains product id and quantity of the item
      * @return cart item object that is saved in cart item repository
      */
@@ -69,7 +73,7 @@ public class CartService {
 
         // If cart item already exists, increase the cart item's quantity
         Optional<CartItem> cartItemInRepo = cartItemRepository.findById(cartItemRequest.getProductId());
-        if(cartItemInRepo.isPresent()){
+        if (cartItemInRepo.isPresent()) {
             cartItemInRepo.get().setQuantity(cartItemInRepo.get().getQuantity() + cartItemRequest.getQuantity());
             cartItemRepository.save(cartItemInRepo.get());
             return ResponseEntity.status(HttpStatus.CREATED).body(cartItemInRepo.get());
@@ -88,6 +92,7 @@ public class CartService {
 
     /**
      * Increase item quantity in cart by 1 for the given cart item id
+     *
      * @param cartItemId id of the cart item
      * @return quantity of the item after increase operation
      */
@@ -101,17 +106,33 @@ public class CartService {
 
     /**
      * Decrease item quantity in cart by 1 for the given cart item id
+     *
      * @param cartItemId id of the cart item
      * @return quantity of the item after increase operation
      */
     public ResponseEntity<Integer> decreaseItemQuantity(Long cartItemId) {
         // TODO : Check if cartItemId exists
         CartItem cartItem = cartItemRepository.findById(cartItemId).get();
-        if(cartItem.getQuantity() > 1) {
+        if (cartItem.getQuantity() > 1) {
             cartItem.setQuantity(cartItem.getQuantity() - 1);
             cartItemRepository.save(cartItem);
         }
         return ResponseEntity.status(HttpStatus.OK).body(cartItem.getQuantity());
+    }
+
+    /**
+     * Update item quantity in cart by the given quantity for the given cart item id
+     *
+     * @param itemId cart item id to change quantity of
+     * @param quantity to change to
+     * @return cart item object that was changed
+     */
+    public ResponseEntity<CartItem> updateItemQuantity(Long itemId, Integer quantity) {
+        CartItem cartItem = cartItemRepository.findById(itemId).get();
+        // TODO : Check if cartItemId exists
+        cartItem.setQuantity(quantity);
+        cartItemRepository.save(cartItem);
+        return ResponseEntity.status(HttpStatus.OK).body(cartItem);
     }
 
 }
