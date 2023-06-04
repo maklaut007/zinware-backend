@@ -195,10 +195,17 @@ public class SpringBootCucumberTestDefinitions {
 
     @When("A user decrease number of products in cart")
     public void aUserDecreaseNumberOfProductsInCart() {
-        
+        RestAssured.baseURI = BASE_URL;
+        RequestSpecification request = RestAssured.given().header("Authorization", "Bearer " + authToken);
+        JSONObject requestBody = new JSONObject();
+        request.header("Content-Type", "application/json");
+        response = request.body(requestBody.toString()).put(BASE_URL + port + "/api/cart/1/decrease-quantity");
     }
 
     @Then("product quantity is decreased by one")
     public void productQuantityIsDecreasedByOne() {
+        Assert.assertEquals(200, response.getStatusCode());
+        Assert.assertTrue(response.getBody().asString().contains("success"));
+        Assert.assertTrue(response.getBody().asString().contains("quantity"));
     }
 }
