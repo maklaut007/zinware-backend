@@ -91,46 +91,18 @@ public class CartService {
     }
 
     /**
-     * Increase item quantity in cart by 1 for the given cart item id
-     *
-     * @param cartItemId id of the cart item
-     * @return quantity of the item after increase operation
-     */
-    public ResponseEntity<Integer> increaseItemQuantity(Long cartItemId) {
-        // TODO : Check if cartItemId exists
-        CartItem cartItem = cartItemRepository.findById(cartItemId).get();
-        cartItem.setQuantity(cartItem.getQuantity() + 1);
-        cartItemRepository.save(cartItem);
-        return ResponseEntity.status(HttpStatus.OK).body(cartItem.getQuantity());
-    }
-
-    /**
-     * Decrease item quantity in cart by 1 for the given cart item id
-     *
-     * @param cartItemId id of the cart item
-     * @return quantity of the item after increase operation
-     */
-    public ResponseEntity<Integer> decreaseItemQuantity(Long cartItemId) {
-        // TODO : Check if cartItemId exists
-        CartItem cartItem = cartItemRepository.findById(cartItemId).get();
-        if (cartItem.getQuantity() > 1) {
-            cartItem.setQuantity(cartItem.getQuantity() - 1);
-            cartItemRepository.save(cartItem);
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(cartItem.getQuantity());
-    }
-
-    /**
      * Update item quantity in cart by the given quantity for the given cart item id
      *
      * @param itemId cart item id to change quantity of
-     * @param quantity to change to
+     * @param item CartItemRequest object that contains new quantity
      * @return cart item object that was changed
      */
-    public ResponseEntity<CartItem> updateItemQuantity(Long itemId, Integer quantity) {
+    public ResponseEntity<CartItem> updateItemQuantity(Long itemId, CartItemRequest item) {
         CartItem cartItem = cartItemRepository.findById(itemId).get();
-        // TODO : Check if cartItemId exists
-        cartItem.setQuantity(quantity);
+        if(cartItem.getId() != cartItem.getId()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        cartItem.setQuantity(item.getQuantity());
         cartItemRepository.save(cartItem);
         return ResponseEntity.status(HttpStatus.OK).body(cartItem);
     }
