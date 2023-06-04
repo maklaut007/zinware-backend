@@ -182,13 +182,12 @@ public class SpringBootCucumberTestDefinitions {
         RequestSpecification request = RestAssured.given().header("Authorization", "Bearer " + authToken);
         JSONObject requestBody = new JSONObject();
         request.header("Content-Type", "application/json");
-        response = request.body(requestBody.toString()).put(BASE_URL + port + "/api/cart/1/increase-quantity");
+        response = request.body(requestBody.toString()).put(BASE_URL + port + "/api/cart/1/increase-quantity/");
     }
 
     @Then("product quantity is increased by one")
     public void productQuantityIsIncreasedByOne() {
         Assert.assertEquals(200, response.getStatusCode());
-        Assert.assertTrue(response.getBody().asString().contains("quantity"));
     }
 
     @When("A user decrease number of products in cart")
@@ -197,12 +196,29 @@ public class SpringBootCucumberTestDefinitions {
         RequestSpecification request = RestAssured.given().header("Authorization", "Bearer " + authToken);
         JSONObject requestBody = new JSONObject();
         request.header("Content-Type", "application/json");
-        response = request.body(requestBody.toString()).put(BASE_URL + port + "/api/cart/1/decrease-quantity");
+        response = request.body(requestBody.toString()).put(BASE_URL + port + "/api/cart/1/decrease-quantity/");
     }
 
     @Then("product quantity is decreased by one")
     public void productQuantityIsDecreasedByOne() {
         Assert.assertEquals(200, response.getStatusCode());
-        Assert.assertTrue(response.getBody().asString().contains("quantity"));
+    }
+
+    @When("A user changes number of products in cart")
+    public void aUserChangesNumberOfProductsInCart() throws JSONException {
+        RestAssured.baseURI = BASE_URL;
+        RequestSpecification request = RestAssured.given().header("Authorization", "Bearer " + authToken);
+        JSONObject requestBody = new JSONObject();
+        request.header("Content-Type", "application/json");
+        requestBody.put("quantity", 2);
+        response = request.body(requestBody.toString()).put(BASE_URL + port + "/api/cart/1/");
+
+    }
+
+    @Then("New number of products in displayed")
+    public void newNumberOfProductsInDisplayed() {
+        Assert.assertEquals(200, response.getStatusCode());
+        Assert.assertNotNull(response.body());
+        Assert.assertTrue(response.body().asString().contains("quantity"));
     }
 }

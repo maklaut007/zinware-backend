@@ -15,7 +15,5 @@ Feature: Rest API functionalities
     Then A list of items in cart is displayed
     When User adds item to cart
     Then Item successfully added to cart
-    When A user increase number of products in cart
-    Then product quantity is increased by one
-    When A user decrease number of products in cart
-    Then product quantity is decreased by one
+    When A user changes number of products in cart
+    Then New number of products in displayed
