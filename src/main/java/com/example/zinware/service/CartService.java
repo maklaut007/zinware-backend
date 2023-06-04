@@ -61,19 +61,57 @@ public class CartService {
         return cart.get();
     }
 
+    /**
+     * Add item to cart or increase the quantity of an existing item in cart if it already exists
+     * @param cartItemRequest cart item request object that contains product id and quantity of the item
+     * @return cart item object that is saved in cart item repository
+     */
     public ResponseEntity<CartItem> addItemToCart(CartItemRequest cartItemRequest) {
-        //TODO: Check if product is already in cart
 
+        // If cart item already exists, increase the cart item's quantity
+        Optional<CartItem> cartItemInRepo = cartItemRepository.findById(cartItemRequest.getProductId());
+        if(cartItemInRepo.isPresent()){
+            cartItemInRepo.get().setQuantity(cartItemInRepo.get().getQuantity() + cartItemRequest.getQuantity());
+            return ResponseEntity.status(HttpStatus.CREATED).body(cartItemInRepo.get());
+        }
+
+        // If cart item does not exist in cart, create a new one
         //Get cart and product
         Cart cart = getCart();
         Product product = categoryService.getProduct(cartItemRequest.getProductId());
-
 
         // Create cart item and save it to cart item repository
         CartItem cartItem = new CartItem(cart, product, cartItemRequest.getQuantity());
         cartItemRepository.save(cartItem);
         return ResponseEntity.status(HttpStatus.CREATED).body(cartItem);
     }
+
+    /**
+     * Increase item quantity in cart by 1 for the given cart item id
+     * @param cartItemId id of the cart item
+     * @return quantity of the item after increase operation
+     */
+    public ResponseEntity<Integer> increaseItemQuantity(Long cartItemId) {
+        // TODO : Check if cartItemId exists
+        CartItem cartItem = cartItemRepository.findById(cartItemId).get();
+        cartItem.setQuantity(cartItem.getQuantity() + 1);
+        cartItemRepository.save(cartItem);
+        return ResponseEntity.status(HttpStatus.OK).body(cartItem.getQuantity());
+    }
+
+    /**
+     * Decrease item quantity in cart by 1 for the given cart item id
+     * @param cartItemId id of the cart item
+     * @return quantity of the item after increase operation
+     */
+    public ResponseEntity<Integer> decreaseItemQuantity(Long cartItemId) {
+        // TODO : Check if cartItemId exists
+        CartItem cartItem = cartItemRepository.findById(cartItemId).get();
+        cartItem.setQuantity(cartItem.getQuantity() - 1);
+        cartItemRepository.save(cartItem);
+        return ResponseEntity.status(HttpStatus.OK).body(cartItem.getQuantity());
+    }
+
 }
 
 
