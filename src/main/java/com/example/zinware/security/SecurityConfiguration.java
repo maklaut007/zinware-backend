@@ -47,7 +47,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/**") // Allow OPTIONS requests
+                .antMatchers(HttpMethod.OPTIONS, "/**")
                 .permitAll()
                 .antMatchers("/api/categories/**", "/auth/**")
                 .permitAll()

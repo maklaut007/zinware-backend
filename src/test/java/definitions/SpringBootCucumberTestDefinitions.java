@@ -176,6 +176,6 @@ public class SpringBootCucumberTestDefinitions {
         Assert.assertEquals(201, response.getStatusCode());
         Assert.assertNotNull(response.body());
         Assert.assertTrue(response.body().asString().contains("id"));
-
     }
+
 }
