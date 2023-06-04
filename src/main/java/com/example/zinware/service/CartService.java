@@ -1,5 +1,6 @@
 package com.example.zinware.service;
 
+import com.example.zinware.exception.InformationNotFoundException;
 import com.example.zinware.model.*;
 import com.example.zinware.model.cart.Cart;
 import com.example.zinware.model.cart.CartItem;
@@ -107,6 +108,15 @@ public class CartService {
         return ResponseEntity.status(HttpStatus.OK).body(cartItem);
     }
 
+    public Cart deleteItemFromCart(Long itemId){
+        CartItem cartItem = cartItemRepository.findById(itemId).get();
+        // TODO: check if item in user's cart
+        if(cartItem.getId() != cartItem.getId()){
+            throw new InformationNotFoundException("Item with id " + itemId + " not found");
+        }
+        cartItemRepository.delete(cartItem);
+        return getCart();
+    }
 }
 
 
