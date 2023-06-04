@@ -107,8 +107,10 @@ public class CartService {
     public ResponseEntity<Integer> decreaseItemQuantity(Long cartItemId) {
         // TODO : Check if cartItemId exists
         CartItem cartItem = cartItemRepository.findById(cartItemId).get();
-        cartItem.setQuantity(cartItem.getQuantity() - 1);
-        cartItemRepository.save(cartItem);
+        if(cartItem.getQuantity() > 1) {
+            cartItem.setQuantity(cartItem.getQuantity() - 1);
+            cartItemRepository.save(cartItem);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(cartItem.getQuantity());
     }
 
