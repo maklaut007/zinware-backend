@@ -72,6 +72,7 @@ public class CartService {
         Optional<CartItem> cartItemInRepo = cartItemRepository.findById(cartItemRequest.getProductId());
         if(cartItemInRepo.isPresent()){
             cartItemInRepo.get().setQuantity(cartItemInRepo.get().getQuantity() + cartItemRequest.getQuantity());
+            cartItemRepository.save(cartItemInRepo.get());
             return ResponseEntity.status(HttpStatus.CREATED).body(cartItemInRepo.get());
         }
 
