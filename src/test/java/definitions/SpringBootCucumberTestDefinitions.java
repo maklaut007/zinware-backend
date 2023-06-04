@@ -169,7 +169,6 @@ public class SpringBootCucumberTestDefinitions {
         requestBody.put("quantity", 2);
         request.header("Content-Type", "application/json");
         response = request.body(requestBody.toString()).post(BASE_URL + port + "/api/cart/");
-        System.out.println(response.getBody().asString());
     }
     @Then("Item successfully added to cart")
     public void itemSuccessfullyAddedToCart() {
@@ -178,4 +177,28 @@ public class SpringBootCucumberTestDefinitions {
         Assert.assertTrue(response.body().asString().contains("id"));
     }
 
+    @When("A user increase number of products in cart")
+    public void aUserIncreaseNumberOfProductsInCart() {
+        RestAssured.baseURI = BASE_URL;
+        RequestSpecification request = RestAssured.given().header("Authorization", "Bearer " + authToken);
+        JSONObject requestBody = new JSONObject();
+        request.header("Content-Type", "application/json");
+        response = request.body(requestBody.toString()).put(BASE_URL + port + "/api/cart/1/increase-quantity");
+    }
+
+    @Then("product quantity is increased by one")
+    public void productQuantityIsIncreasedByOne() {
+        Assert.assertEquals(200, response.getStatusCode());
+        Assert.assertTrue(response.getBody().asString().contains("success"));
+        Assert.assertTrue(response.getBody().asString().contains("quantity"));
+    }
+
+    @When("A user decrease number of products in cart")
+    public void aUserDecreaseNumberOfProductsInCart() {
+        
+    }
+
+    @Then("product quantity is decreased by one")
+    public void productQuantityIsDecreasedByOne() {
+    }
 }
