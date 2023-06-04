@@ -221,4 +221,13 @@ public class SpringBootCucumberTestDefinitions {
         Assert.assertNotNull(response.body());
         Assert.assertTrue(response.body().asString().contains("quantity"));
     }
+
+    @When("I delete item from cart")
+    public void iDeleteItemFromCart() {
+        
+    }
+
+    @Then("Cart without item is displayed")
+    public void cartWithoutItemIsDisplayed() {
+    }
 }

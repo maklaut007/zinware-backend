@@ -17,3 +17,5 @@ Feature: Rest API functionalities
     Then Item successfully added to cart
     When A user changes number of products in cart
     Then New number of products in displayed
+    When I delete item from cart
+    Then Cart without item is displayed
