@@ -50,7 +50,7 @@ public class CartController {
      * @param itemId id of item to delete from cart
      * @return cart with item deleted
      */
-    @DeleteMapping
+    @DeleteMapping(path = "/{itemId}/")
     public Cart deleteItemFromCart(@PathVariable Long itemId) {
         return cartService.deleteItemFromCart(itemId);
     }
