@@ -48,9 +48,8 @@ public class SpringBootCucumberTestDefinitions {
             e.printStackTrace();
         }
     }
-
-    @When("I search for products from category")
-    public void iSearchForProductsFromCategory() {
+    @When("User search for products from category")
+    public void userSearchForProductsFromCategory() {
         RestAssured.baseURI = BASE_URL;
         RequestSpecification request = RestAssured.given();
         request.header("Content-Type", "application/json");
@@ -65,9 +64,8 @@ public class SpringBootCucumberTestDefinitions {
         Assert.assertTrue(response.body().as(List.class).size()> 1);
         Assert.assertTrue(response.body().asString().contains("description"));
     }
-
-    @When("I search for product by id")
-    public void iSearchForProductById() {
+    @When("User search for product by id")
+    public void userSearchForProductById() {
         RestAssured.baseURI = BASE_URL;
         RequestSpecification request = RestAssured.given();
         request.header("Content-Type", "application/json");
@@ -237,4 +235,5 @@ public class SpringBootCucumberTestDefinitions {
         Assert.assertNotNull(response.body());
         Assert.assertTrue(response.body().asString().contains("cartItems"));
     }
+
 }
