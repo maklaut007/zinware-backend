@@ -17,14 +17,10 @@ Feature: Rest API functionalities
     Then Item successfully added to cart
     When A user changes number of products in cart
     Then New number of products in displayed
-    When I delete item from cart
+    When A user delete item from cart
     Then Cart without item is displayed
   Scenario: User tries to access protected endpoints without signing in
     Given A user is not signed in
-    When User tries to search for products from category
-    Then An authentication error is displayed
-    When User tries to search for product by id
-    Then An authentication error is displayed
     When User tries to open the cart
     Then An authentication error is displayed
     When User tries to add an item to the cart

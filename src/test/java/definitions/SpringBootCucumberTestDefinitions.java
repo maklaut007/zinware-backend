@@ -144,10 +144,9 @@ public class SpringBootCucumberTestDefinitions {
     @When("A user open cart")
     public void aUserOpenCart() {
         RestAssured.baseURI = BASE_URL;
-        RequestSpecification request = RestAssured.given().header("Authorization", "Bearer " + authToken).header("Accept", "application/json");;
+        RequestSpecification request = RestAssured.given().header("Authorization", "Bearer " + authToken).header("Accept", "application/json");
         JSONObject requestBody = new JSONObject();
         response = request.body(requestBody.toString()).get(BASE_URL + port + "/api/cart/");
-        System.out.println(response.getBody().asString());
     }
 
     @Then("A list of items in cart is displayed")
@@ -188,19 +187,6 @@ public class SpringBootCucumberTestDefinitions {
         Assert.assertEquals(200, response.getStatusCode());
     }
 
-    @When("A user decrease number of products in cart")
-    public void aUserDecreaseNumberOfProductsInCart() {
-        RestAssured.baseURI = BASE_URL;
-        RequestSpecification request = RestAssured.given().header("Authorization", "Bearer " + authToken);
-        JSONObject requestBody = new JSONObject();
-        request.header("Content-Type", "application/json");
-        response = request.body(requestBody.toString()).put(BASE_URL + port + "/api/cart/1/decrease-quantity/");
-    }
-
-    @Then("product quantity is decreased by one")
-    public void productQuantityIsDecreasedByOne() {
-        Assert.assertEquals(200, response.getStatusCode());
-    }
 
     @When("A user changes number of products in cart")
     public void aUserChangesNumberOfProductsInCart() throws JSONException {
@@ -212,16 +198,65 @@ public class SpringBootCucumberTestDefinitions {
         response = request.body(requestBody.toString()).put(BASE_URL + port + "/api/cart/1/");
 
     }
-
     @Then("New number of products in displayed")
     public void newNumberOfProductsInDisplayed() {
         Assert.assertEquals(200, response.getStatusCode());
         Assert.assertNotNull(response.body());
         Assert.assertTrue(response.body().asString().contains("quantity"));
     }
+    @When("A user delete item from cart")
+    public void aUserDeleteItemFromCart() {
+        RestAssured.baseURI = BASE_URL;
+        RequestSpecification request = RestAssured.given().header("Authorization", "Bearer " + authToken);
+        JSONObject requestBody = new JSONObject();
+        request.header("Content-Type", "application/json");
+        response = request.body(requestBody.toString()).delete(BASE_URL + port + "/api/cart/1/");
+    }
+    @Then("Cart without item is displayed")
+    public void cartWithoutItemIsDisplayed() {
+        Assert.assertEquals(200, response.getStatusCode());
+        Assert.assertNotNull(response.body());
+        Assert.assertTrue(response.body().asString().contains("cartItems"));
+    }
 
-    @When("I delete item from cart")
-    public void iDeleteItemFromCart() {
+    @Given("A user is not signed in")
+    public void aUserIsNotSignedIn() {
+        // User does not have a JWT token
+        authToken = null;
+    }
+
+
+    @When("User tries to open the cart")
+    public void userTriesToOpenTheCart() {
+        RestAssured.baseURI = BASE_URL;
+        RequestSpecification request = RestAssured.given().header("Authorization", "Bearer " + authToken).header("Accept", "application/json");
+        JSONObject requestBody = new JSONObject();
+        response = request.body(requestBody.toString()).get(BASE_URL + port + "/api/cart/");
+    }
+
+    @When("User tries to add an item to the cart")
+    public void userTriesToAddAnItemToTheCart() throws JSONException {
+        RestAssured.baseURI = BASE_URL;
+        RequestSpecification request = RestAssured.given().header("Authorization", "Bearer " + authToken).header("Accept", "application/json");
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("productId", 1);
+        requestBody.put("quantity", 2);
+        request.header("Content-Type", "application/json");
+        response = request.body(requestBody.toString()).post(BASE_URL + port + "/api/cart/");
+    }
+
+    @When("User tries to change the number of products in the cart")
+    public void userTriesToChangeTheNumberOfProductsInTheCart() throws JSONException {
+        RestAssured.baseURI = BASE_URL;
+        RequestSpecification request = RestAssured.given().header("Authorization", "Bearer " + authToken);
+        JSONObject requestBody = new JSONObject();
+        request.header("Content-Type", "application/json");
+        requestBody.put("quantity", 2);
+        response = request.body(requestBody.toString()).put(BASE_URL + port + "/api/cart/1/");
+    }
+
+    @When("User tries to delete an item from the cart")
+    public void userTriesToDeleteAnItemFromTheCart() {
         RestAssured.baseURI = BASE_URL;
         RequestSpecification request = RestAssured.given().header("Authorization", "Bearer " + authToken);
         JSONObject requestBody = new JSONObject();
@@ -229,11 +264,11 @@ public class SpringBootCucumberTestDefinitions {
         response = request.body(requestBody.toString()).delete(BASE_URL + port + "/api/cart/1/");
     }
 
-    @Then("Cart without item is displayed")
-    public void cartWithoutItemIsDisplayed() {
-        Assert.assertEquals(200, response.getStatusCode());
+    @Then("An authentication error is displayed")
+    public void anAuthenticationErrorIsDisplayed() {
+        Assert.assertEquals(403, response.getStatusCode());
         Assert.assertNotNull(response.body());
-        Assert.assertTrue(response.body().asString().contains("cartItems"));
     }
+
 
 }
