@@ -4,6 +4,7 @@ import com.example.zinware.model.cart.Cart;
 import com.example.zinware.model.cart.CartItem;
 import com.example.zinware.model.cart.CartItemRequest;
 import com.example.zinware.service.CartService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +12,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/cart")
 public class CartController {
 
-    private final CartService cartService;
+    private  CartService cartService;
+    @Autowired
+    public void setCartService(CartService cartService) {
+        this.cartService = cartService;
+    }
 
     public CartController(CartService cartService) {
         this.cartService = cartService;
