@@ -34,19 +34,6 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    /**
-     * Returns a category by id
-     * @param categoryId  id of the category
-     * @return category object
-     * @throws InformationNotFoundException  if category is not found
-     */
-    public Category getCategory(Long categoryId) {
-        Optional<Category> category = categoryRepository.findById(categoryId);
-        if (category.isEmpty()) {
-            throw new InformationNotFoundException("No category found with id" + categoryId);
-        }
-        return category.get();
-    };
 
     /**
      * Returns all products in a category
