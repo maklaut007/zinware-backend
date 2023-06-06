@@ -19,6 +19,8 @@ Feature: Rest API functionalities
     Then New number of products in displayed
     When A user delete item from cart
     Then Cart without item is displayed
+    When User checks out
+    Then Order is added to order list
   Scenario: User tries to access protected endpoints without incorrect jwt
     Given A user is not signed in
     When User tries to open the cart

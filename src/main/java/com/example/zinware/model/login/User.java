@@ -1,8 +1,10 @@
 package com.example.zinware.model.login;
 
+import com.example.zinware.model.Checkout;
 import com.example.zinware.model.cart.Cart;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -23,6 +25,9 @@ public class User {
 
     @OneToOne(mappedBy = "user")
     private Cart cart;
+
+    @OneToMany(mappedBy = "user")
+    private List<Checkout> checkouts;
 
     public User(String username, String password, String email) {
         this.username = username;

@@ -271,4 +271,12 @@ public class SpringBootCucumberTestDefinitions {
     }
 
 
+    @When("User checks out")
+    public void userChecksOut() {
+        
+    }
+
+    @Then("Order is added to order list")
+    public void orderIsAddedToOrderList() {
+    }
 }
