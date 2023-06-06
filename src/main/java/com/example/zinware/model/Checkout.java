@@ -18,6 +18,9 @@ public class Checkout {
     private User user;
 
     @Column
+    private String name;
+
+    @Column
     private String address;
 
     @Column
@@ -32,8 +35,9 @@ public class Checkout {
     @Column
     private String cardCvc;
 
-    public Checkout(User user, String address, String cardNumber, String cardHolder, String cardExpiry, String cardCvc) {
+    public Checkout(User user, String name,String address, String cardNumber, String cardHolder, String cardExpiry, String cardCvc) {
         this.user = user;
+        this.name = name;
         this.address = address;
         this.cardNumber = cardNumber;
         this.cardHolder = cardHolder;
@@ -99,5 +103,13 @@ public class Checkout {
 
     public void setCardCvc(String cardCvc) {
         this.cardCvc = cardCvc;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

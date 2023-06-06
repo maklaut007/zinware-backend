@@ -224,6 +224,7 @@ public class SpringBootCucumberTestDefinitions {
         RestAssured.baseURI = BASE_URL;
         RequestSpecification request = RestAssured.given().header("Authorization", "Bearer " + authToken);
         JSONObject requestBody = new JSONObject();
+        requestBody.put("name", "User");
         requestBody.put("address", "100 Street,  City, Country");
         requestBody.put("cardNumber", "1234123412341234");
         requestBody.put("cardHolder", "User");
