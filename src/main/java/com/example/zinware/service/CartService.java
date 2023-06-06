@@ -62,22 +62,23 @@ public class CartService {
      * @return cart item object that is saved in cart item repository
      */
     public ResponseEntity<CartItem> addItemToCart(CartItemRequest cartItemRequest) {
-
+        // Getting current logged-in user's cart
+        Cart cart = getCart();
+        // Getting item from cart item repository
+        CartItem cartItem = cartItemRepository.findByProductIdAndCartId(cartItemRequest.getProductId(), cart.getId()).orElse(null);
         // If cart item already exists, increase the cart item's quantity
-        Optional<CartItem> cartItemInRepo = cartItemRepository.findById(cartItemRequest.getProductId());
-        if (cartItemInRepo.isPresent()) {
-            cartItemInRepo.get().setQuantity(cartItemInRepo.get().getQuantity() + cartItemRequest.getQuantity());
-            cartItemRepository.save(cartItemInRepo.get());
-            return ResponseEntity.status(HttpStatus.CREATED).body(cartItemInRepo.get());
+
+        if (cartItem != null) {
+            cartItem.setQuantity(cartItem.getQuantity() + cartItemRequest.getQuantity());
+            cartItemRepository.save(cartItem);
+            return ResponseEntity.status(HttpStatus.CREATED).body(cartItem);
         }
 
         // If cart item does not exist in cart, create a new one
-        //Get cart and product
-        Cart cart = getCart();
         Product product = categoryService.getProduct(cartItemRequest.getProductId());
 
         // Create cart item and save it to cart item repository
-        CartItem cartItem = new CartItem(cart, product, cartItemRequest.getQuantity());
+        cartItem = new CartItem(cart, product, cartItemRequest.getQuantity());
         cartItemRepository.save(cartItem);
         return ResponseEntity.status(HttpStatus.CREATED).body(cartItem);
     }
@@ -97,7 +98,7 @@ public class CartService {
         );
 
         // Check if user has the item in their cart
-        if (cartItem.getCart().getUser().getId() != UserService.getCurrentLoggedInUser().getId()) {
+        if (!cartItem.getCart().getUser().getId().equals(UserService.getCurrentLoggedInUser().getId()) ) {
             throw new InformationNotFoundException("Item not found in user's cart");
         }
 
@@ -114,12 +115,17 @@ public class CartService {
      * @throws InformationNotFoundException if the item id is not found in the cart
      */
     public Cart deleteItemFromCart(Long itemId) {
-        CartItem cartItem = cartItemRepository.findById(itemId).get();
+
+        CartItem cartItem = cartItemRepository.findById(itemId).orElseThrow(
+                () -> new InformationNotFoundException("Item not found in the cart")
+        );
+
         // Check if user has the item in their cart
-        boolean isInUserCart = cartItem.getCart().getUser().getId() == UserService.getCurrentLoggedInUser().getId();
+        boolean isInUserCart = cartItem.getCart().getUser().getId().equals(UserService.getCurrentLoggedInUser().getId()) ;
         if (!isInUserCart) {
             throw new InformationNotFoundException("Item not found in user's cart");
         }
+
         cartItemRepository.delete(cartItem);
         return getCart();
     }
