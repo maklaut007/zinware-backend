@@ -108,11 +108,18 @@ public class CartService {
         return ResponseEntity.status(HttpStatus.OK).body(cartItem);
     }
 
+    /**
+     * Delete item from cart by the given item id
+     * @param itemId cart item id to delete
+     * @return cart object that contains all items in the cart after deletion
+     * @throws InformationNotFoundException if item with given id is not found
+     */
     public Cart deleteItemFromCart(Long itemId){
         CartItem cartItem = cartItemRepository.findById(itemId).get();
-        // TODO: check if item in user's cart
-        if(cartItem.getId() != cartItem.getId()){
-            throw new InformationNotFoundException("Item with id " + itemId + " not found");
+        // Check if user has the item in their cart
+        boolean isInUserCart = cartItem.getCart().getUser().getId() == UserService.getCurrentLoggedInUser().getId();
+        if(!isInUserCart){
+            throw new InformationNotFoundException("Item not found in user's cart");
         }
         cartItemRepository.delete(cartItem);
         return getCart();

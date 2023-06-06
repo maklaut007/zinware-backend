@@ -221,8 +221,8 @@ public class SpringBootCucumberTestDefinitions {
 
     @Given("A user is not signed in")
     public void aUserIsNotSignedIn() {
-        // User does not have a JWT token
-        authToken = null;
+        // User JWT is not valid
+        authToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwiaWF0IjoxNjg1OTEwNDk5LCJleHAiOjE2ODU5OTY4OTl9.M_rZBC9DdV7uiDnbOitjsg8yi0NNatXNtuL62rseY54";
     }
 
 
