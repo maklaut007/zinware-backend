@@ -1,5 +1,6 @@
 package com.example.zinware.service;
 
+import com.example.zinware.exception.ConflictException;
 import com.example.zinware.exception.UnauthorizedException;
 import com.example.zinware.model.login.LoginRequest;
 import com.example.zinware.model.login.User;
@@ -61,7 +62,7 @@ public class UserService {
      */
     public ResponseEntity<User> registerUser(User user) {
         if(userRepository.findByEmail(user.getEmail()) != null){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            throw new ConflictException("User with this email already exist");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
