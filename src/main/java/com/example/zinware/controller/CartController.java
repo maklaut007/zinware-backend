@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/cart")
 public class CartController {
 
-    private CartService cartService;
+    private final CartService cartService;
 
     public CartController(CartService cartService) {
         this.cartService = cartService;
@@ -24,7 +24,7 @@ public class CartController {
     @GetMapping(path = "/")
     public Cart getCart() {
         return cartService.getCart();
-    };
+    }
 
     /**
      * Add item to cart

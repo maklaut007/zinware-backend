@@ -92,7 +92,7 @@ public class SpringBootCucumberTestDefinitions {
             requestBody.put("username", "user");
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<String> request = new HttpEntity<String>(requestBody.toString(), headers);
+            HttpEntity<String> request = new HttpEntity<>(requestBody.toString(), headers);
             ResponseEntity<String> response = new RestTemplate().exchange(BASE_URL + port + "/auth/register/", HttpMethod.POST, request, String.class);
             Assert.assertEquals(response.getStatusCode(), HttpStatus.CREATED);
         } catch (HttpClientErrorException e) {
@@ -127,7 +127,7 @@ public class SpringBootCucumberTestDefinitions {
             requestBody.put("email", "test@mail.com");
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<String> request = new HttpEntity<String>(requestBody.toString(), headers);
+            HttpEntity<String> request = new HttpEntity<>(requestBody.toString(), headers);
             ResponseEntity<String> response = new RestTemplate().exchange(BASE_URL + port + "/auth/login/", HttpMethod.POST, request, String.class);
             Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
             // get JWT token from response body

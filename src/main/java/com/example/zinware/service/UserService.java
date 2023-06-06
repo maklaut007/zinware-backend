@@ -1,5 +1,6 @@
 package com.example.zinware.service;
 
+import com.example.zinware.exception.UnauthorizedException;
 import com.example.zinware.model.login.LoginRequest;
 import com.example.zinware.model.login.User;
 import com.example.zinware.model.login.LoginResponse;
@@ -21,9 +22,9 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private UserRepository userRepository;
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
-    private JwtUtils jwtUtils;
+    private final JwtUtils jwtUtils;
     private MyUserDetails myUserDetails;
 
     @Autowired
@@ -44,6 +45,10 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Get current logged-in user object from token
+     * @return User object
+     */
     public static User getCurrentLoggedInUser(){
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userDetails.getUser();
@@ -88,8 +93,7 @@ public class UserService {
             final String JWT = jwtUtils.generateJwtToken(myUserDetails);
             return ResponseEntity.ok(new LoginResponse(JWT));
         }catch (Exception e){
-            //TODO: create custom exception
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginResponse("Error: username or password is incorrect"));
+            throw new UnauthorizedException("Incorrect username or password");
         }
     }
 

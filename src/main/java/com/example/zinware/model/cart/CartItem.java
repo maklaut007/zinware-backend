@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 @Entity
-@Table(name = "cart_item")
+@Table(name = "cart_items")
 public class CartItem {
     @Id
     @Column

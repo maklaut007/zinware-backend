@@ -1,13 +1,11 @@
 package com.example.zinware.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.List;
 
 
 @Entity
-@Table(name = "category")
+@Table(name = "categories")
 public class Category {
     @Id
     @Column
