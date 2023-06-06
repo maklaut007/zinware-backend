@@ -12,8 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.Optional;
 
@@ -38,16 +37,8 @@ public class CartService {
         this.categoryService = categoryService;
     }
 
-    public void removeItemFromCart() {
-        System.out.println("removeItemFromCart");
-    }
-
-    public void updateItemQuantity() {
-        System.out.println("updateItemQuantity");
-    }
-
     /**
-     * Get current logged in user's cart or create a new one if not exists
+     * Get current logged-in user's cart or create a new one if not exists
      *
      * @return cart object
      */
@@ -55,7 +46,7 @@ public class CartService {
         User user = UserService.getCurrentLoggedInUser();
         Optional<Cart> cart = cartRepository.findByUserId(user.getId());
         // Create cart if not exists
-        if (!cart.isPresent()) {
+        if (cart.isEmpty()) {
             Cart newCart = new Cart();
             newCart.setUser(user);
             cartRepository.save(newCart);
@@ -95,14 +86,21 @@ public class CartService {
      * Update item quantity in cart by the given quantity for the given cart item id
      *
      * @param itemId cart item id to change quantity of
-     * @param item CartItemRequest object that contains new quantity
+     * @param item   CartItemRequest object that contains new quantity
      * @return cart item object that was changed
      */
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<CartItem> updateItemQuantity(Long itemId, CartItemRequest item) {
-        CartItem cartItem = cartItemRepository.findById(itemId).get();
-        if(cartItem.getId() != cartItem.getId()){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        // Find item in cart by the given item id
+        CartItem cartItem = cartItemRepository.findById(itemId).orElseThrow(
+                () -> new InformationNotFoundException("Item not found in the cart")
+        );
+
+        // Check if user has the item in their cart
+        if (cartItem.getCart().getUser().getId() != UserService.getCurrentLoggedInUser().getId()) {
+            throw new InformationNotFoundException("Item not found in user's cart");
         }
+
         cartItem.setQuantity(item.getQuantity());
         cartItemRepository.save(cartItem);
         return ResponseEntity.status(HttpStatus.OK).body(cartItem);
@@ -110,15 +108,16 @@ public class CartService {
 
     /**
      * Delete item from cart by the given item id
+     *
      * @param itemId cart item id to delete
      * @return cart object that contains all items in the cart after deletion
-     * @throws InformationNotFoundException if item with given id is not found
+     * @throws InformationNotFoundException if the item id is not found in the cart
      */
-    public Cart deleteItemFromCart(Long itemId){
+    public Cart deleteItemFromCart(Long itemId) {
         CartItem cartItem = cartItemRepository.findById(itemId).get();
         // Check if user has the item in their cart
         boolean isInUserCart = cartItem.getCart().getUser().getId() == UserService.getCurrentLoggedInUser().getId();
-        if(!isInUserCart){
+        if (!isInUserCart) {
             throw new InformationNotFoundException("Item not found in user's cart");
         }
         cartItemRepository.delete(cartItem);
