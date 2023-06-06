@@ -14,8 +14,8 @@ public class CheckoutController {
     private CheckoutService checkoutService;
 
     @Autowired
-    public CheckoutService getCheckoutService() {
-        return checkoutService;
+    public void setCheckoutService(CheckoutService checkoutService) {
+        this.checkoutService = checkoutService;
     }
 
     @PostMapping("/")

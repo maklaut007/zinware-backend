@@ -18,7 +18,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @Autowired
-    public CategoryController(CategoryService categoryService) {
+    public void setCategoryService(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
