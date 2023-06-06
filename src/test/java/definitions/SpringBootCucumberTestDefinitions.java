@@ -219,6 +219,27 @@ public class SpringBootCucumberTestDefinitions {
         Assert.assertTrue(response.body().asString().contains("cartItems"));
     }
 
+    @When("User checks out")
+    public void userChecksOut() throws JSONException {
+        RestAssured.baseURI = BASE_URL;
+        RequestSpecification request = RestAssured.given().header("Authorization", "Bearer " + authToken);
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("address", "100 Street,  City, Country");
+        requestBody.put("cardNumber", "1234123412341234");
+        requestBody.put("cardHolder", "User");
+        requestBody.put("cardExpiry", "12/20");
+        requestBody.put("cardName", "User");
+        requestBody.put("cardCvc", "123");
+        request.header("Content-Type", "application/json");
+        response = request.body(requestBody.toString()).post(BASE_URL + port + "/api/checkout/");
+    }
+
+    @Then("Order is added to order list")
+    public void orderIsAddedToOrderList() {
+        Assert.assertEquals(200, response.getStatusCode());
+        Assert.assertNotNull(response.body());
+    }
+
     @Given("A user is not signed in")
     public void aUserIsNotSignedIn() {
         // User JWT is not valid
@@ -270,13 +291,4 @@ public class SpringBootCucumberTestDefinitions {
         Assert.assertNotNull(response.body());
     }
 
-
-    @When("User checks out")
-    public void userChecksOut() {
-        
-    }
-
-    @Then("Order is added to order list")
-    public void orderIsAddedToOrderList() {
-    }
 }
