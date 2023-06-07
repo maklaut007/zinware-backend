@@ -19,7 +19,7 @@ public class Category {
     private String description;
 
     @Column
-    private String picture;
+    private String image;
 
     @OneToMany(mappedBy = "category")
     private List<Product> productList;
@@ -28,10 +28,10 @@ public class Category {
 
     }
 
-    public Category(String name, String description, String picture) {
+    public Category(String name, String description, String image) {
         this.name = name;
         this.description = description;
-        this.picture = picture;
+        this.image = image;
     }
 
     public Long getId() {
@@ -50,12 +50,12 @@ public class Category {
         this.name = name;
     }
 
-    public String getPicture() {
-        return picture;
+    public String getImage() {
+        return image;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getDescription() {
