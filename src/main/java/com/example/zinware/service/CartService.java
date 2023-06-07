@@ -137,12 +137,16 @@ public class CartService {
      * @throws InformationNotFoundException if the cart is empty or user is not found
      */
     public Cart deleteAllItemsFromCart() {
+        // Get current logged-in user and user's cart
         User loggedInUser = UserService.getCurrentLoggedInUser();
         Cart cart = cartRepository.findByUserId(loggedInUser.getId()).orElseThrow(() -> new InformationNotFoundException("No cart found for this user"));
+
+        // Get all items in the cart
         List<CartItem> userCartItems = cartItemRepository.findAllByCart(cart).get();
         if (userCartItems.isEmpty()) {
             throw new InformationNotFoundException("Cart is already empty");
         }
+        //Delete all items in the cart
         cartItemRepository.deleteAll(userCartItems);
         return getCart();
     }
