@@ -26,7 +26,7 @@ public class CartController {
      * Get cart with all items in it
      * @return cart
      */
-    @GetMapping(path = "/")
+    @GetMapping(path = "/") //http://localhost:8080/api/cart/
     public Cart getCart() {
         return cartService.getCart();
     }
@@ -35,7 +35,7 @@ public class CartController {
      * Add item to cart
      * @return cart item that was added
      */
-    @PostMapping(path = "/")
+    @PostMapping(path = "/") //http://localhost:8080/api/cart/
     public ResponseEntity<CartItem> addItemToCart(@RequestBody CartItemRequest cartItemRequest) {
         return cartService.addItemToCart(cartItemRequest);
     }
@@ -45,7 +45,7 @@ public class CartController {
      * @param cartItem object with new quantity
      * @return Cart item that was updated and status 200
      */
-    @PutMapping(path = "/{itemId}/")
+    @PutMapping(path = "/{itemId}/")//http://localhost:8080/api/cart/1/
     public ResponseEntity<CartItem> updateItemQuantity(@PathVariable Long itemId, @RequestBody CartItemRequest cartItem) {
         return cartService.updateItemQuantity(itemId, cartItem);
     }
@@ -55,7 +55,7 @@ public class CartController {
      * @param itemId id of item to delete from cart
      * @return cart with item deleted
      */
-    @DeleteMapping(path = "/{itemId}/")
+    @DeleteMapping(path = "/{itemId}/")//http://localhost:8080/api/cart/1/
     public Cart deleteItemFromCart(@PathVariable Long itemId) {
         return cartService.deleteItemFromCart(itemId);
     }

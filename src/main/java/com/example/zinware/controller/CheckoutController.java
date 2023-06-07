@@ -18,7 +18,12 @@ public class CheckoutController {
         this.checkoutService = checkoutService;
     }
 
-    @PostMapping("/")
+    /**
+     * Create checkout endpoint
+     * @param checkout checkout to be created
+     * @return checkout that was created
+     */
+    @PostMapping("/") //http://localhost:8080/api/checkout/
     public Checkout createCheckout(@RequestBody Checkout checkout) {
         return checkoutService.createCheckout(checkout);
     }

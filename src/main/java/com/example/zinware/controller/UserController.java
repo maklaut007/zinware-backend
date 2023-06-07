@@ -19,12 +19,22 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping(path = "/register/")
+    /**
+     * Register a new user
+     * @param user the user to be registered
+     * @return ResponseEntity<User> the user registered with status code 201
+     */
+    @PostMapping(path = "/register/")//http://localhost:8080/auth/register
     public ResponseEntity<User> registerUser(@RequestBody User user) {
         return userService.registerUser(user);
     }
 
-    @PostMapping(path = "/login/")
+    /**
+     * Login a user and return a JWT token
+     * @param loginRequest the login request
+     * @return ResponseEntity<?> the JWT token with status code 200
+     */
+    @PostMapping(path = "/login/")//http://localhost:8080/auth/login
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest){
         return userService.loginUser(loginRequest);
     }

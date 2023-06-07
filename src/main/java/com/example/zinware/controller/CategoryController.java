@@ -26,7 +26,7 @@ public class CategoryController {
      * Get all categories
      * @return list of categories
      */
-    @GetMapping(path = "/categories/")
+    @GetMapping(path = "/categories/") //http://localhost:8080/api/categories/
     public List<Category> getAllCategories() {
         return categoryService.getAllCategories();
     }
@@ -36,7 +36,7 @@ public class CategoryController {
      * @param categoryId id of the category
      * @return list of products
      */
-    @GetMapping(path = "/categories/{categoryId}/products/")
+    @GetMapping(path = "/categories/{categoryId}/products/") //http://localhost:8080/api/categories/1/products/
     public List<Product> getCategoryProducts(@PathVariable Long categoryId) {
         return categoryService.getCategoryProducts(categoryId);
     }
@@ -47,7 +47,7 @@ public class CategoryController {
      * @param productId     id of the product
      * @return product object if not found return 404
      */
-    @GetMapping(path = "/categories/{categoryId}/products/{productId}")
+    @GetMapping(path = "/categories/{categoryId}/products/{productId}") //http://localhost:8080/api/categories/1/products/1
     public Product getProduct(@PathVariable Long categoryId, @PathVariable Long productId) {
         return categoryService.getProduct(categoryId, productId);
     }
