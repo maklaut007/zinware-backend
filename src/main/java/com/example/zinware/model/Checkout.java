@@ -35,7 +35,10 @@ public class Checkout {
     @Column
     private String cardCvc;
 
-    public Checkout(User user, String name,String address, String cardNumber, String cardHolder, String cardExpiry, String cardCvc) {
+    @Column
+    private Double total;
+
+    public Checkout(User user, String name,String address, String cardNumber, String cardHolder, String cardExpiry, String cardCvc, Double total) {
         this.user = user;
         this.name = name;
         this.address = address;
@@ -43,6 +46,7 @@ public class Checkout {
         this.cardHolder = cardHolder;
         this.cardExpiry = cardExpiry;
         this.cardCvc = cardCvc;
+        this.total = total;
     }
 
     public Checkout() {
@@ -111,5 +115,13 @@ public class Checkout {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public void setTotal(Double total) {
+        this.total = total;
     }
 }
