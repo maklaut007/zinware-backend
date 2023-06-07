@@ -64,9 +64,9 @@ public class DataLoader implements CommandLineRunner {
     private void loadUserData() {
         try {
             // Seed categories
-            Category category1 = new Category("Mouse", "PC Mouses", "https://media.discordapp.net/attachments/1112238965743964211/1113833439012081694/Allair_Gaming_mice_black_color_white_lights_dark_blue_backgroud_6584014f-6aff-438e-b1b9-c8fbd2368ff8.png?width=1298&height=865");
-            Category category2 = new Category("Keyboards", "PC Keyboards", "https://cdn.discordapp.com/attachments/1112238965743964211/1113681140931362938/Allair_Gaming_keyboard_black_color_white_lights_dark_blue_backg_74961f9a-a214-4327-a118-4a30063f06ae.png");
-            Category category3 = new Category("Headphones", "PC Headphones", "https://media.discordapp.net/attachments/1112238965743964211/1113832002462949386/Allair_Gaming_headphones_black_color_white_lights_dark_blue_bac_8e006651-9ed9-4bbe-9b19-5281af57ed97.png?width=1298&height=865");
+            Category category1 = new Category("Mice", "PC mice for programmers and gamers", "https://media.discordapp.net/attachments/1112238965743964211/1113833439012081694/Allair_Gaming_mice_black_color_white_lights_dark_blue_backgroud_6584014f-6aff-438e-b1b9-c8fbd2368ff8.png?width=1298&height=865");
+            Category category2 = new Category("Keyboards", "PC Keyboards for programmers and gamers", "https://cdn.discordapp.com/attachments/1112238965743964211/1113681140931362938/Allair_Gaming_keyboard_black_color_white_lights_dark_blue_backg_74961f9a-a214-4327-a118-4a30063f06ae.png");
+            Category category3 = new Category("Headphones", "PC Headphones for programmers and gamers", "https://media.discordapp.net/attachments/1112238965743964211/1113832002462949386/Allair_Gaming_headphones_black_color_white_lights_dark_blue_bac_8e006651-9ed9-4bbe-9b19-5281af57ed97.png?width=1298&height=865");
 
             categoryRepository.save(category1);
             categoryRepository.save(category2);
