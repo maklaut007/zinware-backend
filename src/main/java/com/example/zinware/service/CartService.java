@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -127,6 +128,22 @@ public class CartService {
         }
 
         cartItemRepository.delete(cartItem);
+        return getCart();
+    }
+
+    /**
+     * Delete all items from cart
+     * @return cart object that contains all items in the cart after deletion
+     * @throws InformationNotFoundException if the cart is empty or user is not found
+     */
+    public Cart deleteAllItemsFromCart() {
+        User loggedInUser = UserService.getCurrentLoggedInUser();
+        Cart cart = cartRepository.findByUserId(loggedInUser.getId()).orElseThrow(() -> new InformationNotFoundException("No cart found for this user"));
+        List<CartItem> userCartItems = cartItemRepository.findAllByCart(cart).get();
+        if (userCartItems.isEmpty()) {
+            throw new InformationNotFoundException("Cart is already empty");
+        }
+        cartItemRepository.deleteAll(userCartItems);
         return getCart();
     }
 }
